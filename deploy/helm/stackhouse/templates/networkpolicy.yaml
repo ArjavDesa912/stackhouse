@@ -1,0 +1,44 @@
+{{- if .Values.stackhouse.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "stackhouse.fullname" . }}-netpol
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "stackhouse.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "stackhouse.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: api
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - port: {{ .Values.stackhouse.service.targetPort }}
+  egress:
+    # Allow DNS
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+    # Allow PostgreSQL
+    - ports:
+        - port: 5432
+    # Allow Redis
+    - ports:
+        - port: 6379
+    # Allow Qdrant REST + gRPC
+    - ports:
+        - port: 6333
+        - port: 6334
+    # Allow external HTTPS (OpenAI, Anthropic, etc.)
+    - ports:
+        - port: 443
+{{- end }}

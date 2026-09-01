@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "stackhouse.fullname" . }}-api
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "stackhouse.labels" . | nindent 4 }}
+    app.kubernetes.io/component: api
+spec:
+  type: {{ .Values.stackhouse.service.type }}
+  ports:
+    - port: {{ .Values.stackhouse.service.port }}
+      targetPort: {{ .Values.stackhouse.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "stackhouse.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: api

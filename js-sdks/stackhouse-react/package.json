@@ -1,0 +1,18 @@
+{
+    "name": "@stackhouse/react",
+    "version": "0.1.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "peerDependencies": {
+        "@stackhouse/js": "file:../stackhouse-js",
+        "react": "^18.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^26.2.0",
+        "@types/react": "^18.0.0",
+        "typescript": "^5.0.0"
+    },
+    "scripts": {
+        "build": "tsc"
+    }
+}

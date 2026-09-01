@@ -1,0 +1,15 @@
+{{- if .Values.stackhouse.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "stackhouse.fullname" . }}-api-pdb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "stackhouse.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.stackhouse.podDisruptionBudget.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "stackhouse.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: api
+{{- end }}

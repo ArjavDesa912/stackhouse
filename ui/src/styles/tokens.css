@@ -1,0 +1,187 @@
+/* =========================================================================
+   Stackhouse Design Tokens — Neutral + Primary
+   Source variables are mapped to the shadcn token block below.
+   Surfaces : canvas / canvas-1 / canvas-2 / canvas-3
+   Text     : ink / ink-2 / ink-3
+   Lines    : hairline / hairline-strong
+   Brand    : flux (teal-aqua, mapped to primary)
+   Semantic : success / warning / destructive
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ─── Surfaces ─── */
+  --canvas:        #FFFFFF;
+  --canvas-1:      #FBFBFA;   /* page body — warm white */
+  --canvas-2:      #F4F4F2;   /* inset wells, dropdown bg */
+  --canvas-3:      #ECECE9;   /* stronger inset / kbd */
+
+  /* ─── Text ─── */
+  --ink:           #15171C;   /* near-black, slight indigo */
+  --ink-2:         #4B4F58;   /* secondary */
+  --ink-3:         #8A8E97;   /* muted / placeholder */
+  --on-flux:       #04221E;   /* text on flux primary */
+  --on-ink:        #F7F7F5;   /* text on ink surface */
+
+  /* ─── Lines ─── */
+  --hairline:        #E8E7E3;
+  --hairline-strong: #C8C7C2;
+
+  /* ─── Brand: flux (teal-aqua, mapped to primary) ─── */
+  --flux:        #0FB5A6;
+
+  /* ─── Semantic ─── */
+  --success:       #1F9D6E;
+  --warning:       #D8881A;
+  --destructive:   #D2362F;
+
+  /* ─── Spacing ─── */
+  --space-xxs: 4px;
+  --space-xs:  8px;
+  --space-sm:  12px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 40px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+  --space-5xl: 96px;
+  --space-6xl: 128px;
+  --space-section: 192px;
+
+  /* ─── Radii ─── */
+  --radius-xs:  4px;
+  --radius-sm:  6px;
+  --radius-md:  10px;   /* Stackhouse signature softness */
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+  --radius-pill: 999px;
+
+  /* ─── Stacked shadow ladder (light) ─── */
+  --elev-1: 0 0 0 1px rgba(20, 22, 28, 0.06);
+  --elev-2: 0 1px 2px rgba(20, 22, 28, 0.04),
+            0 0 0 1px rgba(20, 22, 28, 0.06);
+  --elev-3: 0 1px 2px rgba(20, 22, 28, 0.04),
+            0 4px 12px -4px rgba(20, 22, 28, 0.08),
+            0 0 0 1px rgba(20, 22, 28, 0.06);
+  --elev-4: 0 2px 4px rgba(20, 22, 28, 0.05),
+            0 12px 24px -6px rgba(20, 22, 28, 0.10),
+            0 0 0 1px rgba(20, 22, 28, 0.06);
+  --elev-5: 0 4px 8px rgba(20, 22, 28, 0.06),
+            0 24px 48px -12px rgba(20, 22, 28, 0.14),
+            0 0 0 1px rgba(20, 22, 28, 0.06);
+
+  --focus-ring: 0 0 0 2px var(--canvas), 0 0 0 4px var(--ring);
+
+  /* ─── Motion ─── */
+  --duration-fast:    120ms;
+  --duration-base:    200ms;
+  --duration-slow:    320ms;
+  --ease-out:         cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out:      cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Dark mode ─── */
+.dark {
+  --canvas:        #16181D;
+  --canvas-1:      #1B1E24;
+  --canvas-2:      #23262E;
+  --canvas-3:      #2C2F36;
+
+  --ink:           #ECEDF0;
+  --ink-2:         #B5B8C0;
+  --ink-3:         #7A7E88;
+  --on-flux:       #04221E;
+  --on-ink:        #16181D;
+
+  --hairline:        #2C2F36;
+  --hairline-strong: #444751;
+
+  --flux:        #1AC9B8;     /* slightly lifted on dark */
+
+  --success:       #2BB47E;
+  --warning:       #E89A2C;
+  --destructive:   #E55048;
+
+  --elev-1: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --elev-2: 0 1px 2px rgba(0, 0, 0, 0.40),
+            0 0 0 1px rgba(255, 255, 255, 0.06);
+  --elev-3: 0 1px 2px rgba(0, 0, 0, 0.30),
+            0 4px 12px -4px rgba(0, 0, 0, 0.50),
+            0 0 0 1px rgba(255, 255, 255, 0.06);
+  --elev-4: 0 2px 4px rgba(0, 0, 0, 0.30),
+            0 12px 24px -6px rgba(0, 0, 0, 0.55),
+            0 0 0 1px rgba(255, 255, 255, 0.07);
+  --elev-5: 0 4px 8px rgba(0, 0, 0, 0.30),
+            0 24px 48px -12px rgba(0, 0, 0, 0.65),
+            0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  --focus-ring: 0 0 0 2px var(--canvas), 0 0 0 4px var(--ring);
+
+  color-scheme: dark;
+}
+
+/* ─── Bridge legacy shadcn tokens to new palette ─── */
+:root {
+  --background: var(--canvas-1);
+  --foreground: var(--ink);
+  --card:       var(--canvas);
+  --card-foreground: var(--ink);
+  --popover:    var(--canvas);
+  --popover-foreground: var(--ink);
+  --primary:    var(--flux);
+  --primary-foreground: var(--on-flux);
+  --secondary:  var(--canvas-2);
+  --secondary-foreground: var(--ink);
+  --muted:      var(--canvas-2);
+  --muted-foreground: var(--ink-2);
+  --accent:     var(--canvas-2);
+  --accent-foreground: var(--ink);
+  --destructive-foreground: var(--canvas);
+  --border:     var(--hairline);
+  --input:      var(--hairline);
+  --ring:       var(--flux);
+  --chart-1:    var(--flux);
+  --chart-2:    var(--success);
+  --chart-3:    var(--muted-foreground);
+  --chart-4:    var(--warning);
+  --chart-5:    var(--ink-2);
+  --sidebar:               var(--canvas-1);
+  --sidebar-foreground:    var(--ink-2);
+  --sidebar-primary:       var(--flux);
+  --sidebar-primary-foreground: var(--on-flux);
+  --sidebar-accent:        var(--canvas-2);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border:        var(--hairline);
+  --sidebar-ring:          var(--flux);
+  --radius: 10px;
+}
+
+.dark {
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card:       var(--canvas-1);
+  --card-foreground: var(--ink);
+  --popover:    var(--canvas-1);
+  --popover-foreground: var(--ink);
+  --primary:    var(--flux);
+  --primary-foreground: var(--on-flux);
+  --secondary:  var(--canvas-2);
+  --secondary-foreground: var(--ink);
+  --muted:      var(--canvas-2);
+  --muted-foreground: var(--ink-2);
+  --accent:     var(--canvas-2);
+  --accent-foreground: var(--ink);
+  --destructive-foreground: var(--canvas);
+  --border:     var(--hairline);
+  --input:      var(--hairline);
+  --ring:       var(--flux);
+  --sidebar:               var(--canvas);
+  --sidebar-foreground:    var(--ink-2);
+  --sidebar-primary:       var(--flux);
+  --sidebar-primary-foreground: var(--on-flux);
+  --sidebar-accent:        var(--canvas-1);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border:        var(--hairline);
+  --sidebar-ring:          var(--flux);
+}

@@ -1,0 +1,17 @@
+{
+    "name": "@stackhouse/react-native",
+    "version": "0.1.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "peerDependencies": {
+        "react": "*",
+        "react-native": "*",
+        "@stackhouse/js": "0.1.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "scripts": {
+        "build": "tsc"
+    }
+}

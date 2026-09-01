@@ -1,0 +1,32 @@
+apiVersion: v2
+name: stackhouse
+description: Stackhouse — AI-Native, Schema-Later Database with Qdrant Vector Search
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - stackhouse
+  - database
+  - baas
+  - vector-search
+  - qdrant
+  - rust
+maintainers:
+  - name: ArjavDesa912
+    url: https://github.com/ArjavDesa912
+home: https://github.com/ArjavDesa912/vibedb-stack
+sources:
+  - https://github.com/ArjavDesa912/vibedb-stack
+dependencies:
+  - name: postgresql
+    version: "16.4.3"
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: "20.6.2"
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: qdrant
+    version: "1.3.0"
+    repository: https://qdrant.github.io/qdrant-helm
+    condition: qdrant.enabled

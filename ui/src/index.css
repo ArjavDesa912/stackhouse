@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./styles/tokens.css";
+@import "./styles/globals.css";
+
+/* =========================================================================
+   Stackhouse UI — Tailwind theme bridge
+   New design tokens live in styles/tokens.css.
+   This file re-exposes them as Tailwind theme variables for utilities
+   (bg-primary, text-foreground, etc.) so legacy components keep rendering.
+   ========================================================================= */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: 'Geist Variable', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Geist Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+}
+
+/* Legacy compatibility: bridge surface/border aliases to the shadcn token set. */
+:root {
+  --bg-app: var(--background);
+  --bg-panel: var(--card);
+  --bg-panel-hover: var(--muted);
+  --bg-header: var(--sidebar);
+  --bg-hover: var(--muted);
+  --border-subtle: var(--border);
+  --border-strong: var(--input);
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
+  --text-muted: var(--muted-foreground);
+  --ring-warm: var(--elev-1);
+  --ring-warm-deep: var(--elev-2);
+  --shadow-whisper: var(--elev-3);
+  --shadow-inset-warm: inset 0 0 0 1px var(--border);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+@layer utilities {
+  /* Typography helpers */
+  .font-serif-display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    line-height: 1.10;
+    letter-spacing: -0.01em;
+  }
+  .font-serif-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    line-height: 1.20;
+  }
+  .text-overline {
+    font-size: 10px;
+    line-height: 1.6;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  /* Pulse animation (retinted muted olive instead of green) */
+  .pulse-green {
+    animation: pulse-warm 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes pulse-warm {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Panels — minimal surfaces with subtle right/bottom divider */
+  .panel {
+    background-color: var(--card);
+    border-right: 1px solid var(--border-subtle);
+  }
+  .shelf-area {
+    border-bottom: 1px solid var(--border-subtle);
+    background-color: var(--background);
+  }
+
+  /* Pills — retinted to the single primary accent for dimensions, neutral for measures */
+  .pill {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    cursor: grab;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 150ms ease-in-out;
+    letter-spacing: 0.02em;
+  }
+  .pill:active { cursor: grabbing; }
+  .pill-dimension {
+    background-color: color-mix(in srgb, var(--primary) 12%, transparent);
+    color: var(--primary);
+    border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+  }
+  .pill-measure {
+    background-color: color-mix(in srgb, var(--muted-foreground) 15%, transparent);
+    color: var(--foreground);
+    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  }
+
+  .label-xs {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  /* Ring-shadow system (hairline halo instead of drop shadow) */
+  .ring-warm        { box-shadow: var(--ring-warm); }
+  .ring-warm-deep   { box-shadow: var(--ring-warm-deep); }
+  .shadow-whisper   { box-shadow: var(--shadow-whisper); }
+  .shadow-inset-warm{ box-shadow: var(--shadow-inset-warm); }
+
+  /* Brand-tinted primary accent surfaces */
+  .bg-brand-soft {
+    background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+    color: var(--primary);
+  }
+
+  /* Alternating-row hover for tables */
+  .row-hover-warm:hover {
+    background-color: color-mix(in srgb, var(--muted) 70%, transparent);
+  }
+}

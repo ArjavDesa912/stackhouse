@@ -1,0 +1,110 @@
+[package]
+name = "stackhouse"
+version = "1.0.0"
+edition = "2021"
+description = "🛸 Stackhouse: A high-performance, Schema-Later database with automatic schema evolution"
+authors = ["Arjav"]
+license = "MIT"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Database - using sqlx for PostgreSQL
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "json", "uuid", "chrono"] }
+
+# Web framework
+axum = { version = "0.7", features = ["ws", "multipart"] }
+axum-extra = { version = "0.9", features = ["typed-header"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Thread-safe schema caching
+dashmap = "5.5"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# HTTP utilities
+tower = { version = "0.4", features = ["util"] }
+tower-http = { version = "0.5", features = ["cors", "trace", "fs"] }
+
+# Embedded assets for Stackhouse-Explorer
+rust-embed = "8.0"
+mime_guess = "2.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Utilities
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+futures = "0.3"
+async-stream = "0.3"
+
+# Logical replication / WAL decoding (parser-only, no libpq)
+pg_walstream = { version = "0.8", default-features = false, features = ["std"] }
+
+# For SQL identifier validation
+regex = "1.10"
+lazy_static = "1.4"
+
+# Authentication
+argon2 = "0.5"                    # Password hashing
+jsonwebtoken = "9.3"              # JWT tokens
+rand = "0.8"                      # Secure random generation
+base64 = "0.22"                   # Encoding
+
+# OAuth2 & Social Login
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# Email (Magic Links)
+lettre = { version = "0.11", features = ["tokio1-native-tls", "builder", "smtp-transport"] }
+
+# MFA / TOTP
+totp-rs = { version = "5.6", features = ["gen_secret", "otpauth"] }
+
+# GraphQL API
+async-graphql = "7.0"
+
+# Observability & Metrics
+prometheus = "0.13"
+opentelemetry = "0.22"
+
+# Image Transformations
+image = "0.25"
+
+# Security
+aes-gcm-siv = "0.11"
+sha2 = "0.10"
+hmac = "0.12"
+hex = "0.4"
+md5 = "0.7"
+rsa = { version = "0.9", features = ["sha2"] }
+p256 = { version = "0.13", features = ["ecdsa"] }
+x509-parser = { version = "0.16", features = ["verify"] }
+
+# Storage
+multer = "3.0"                    # Multipart form handling
+
+async-trait = "0.1"                # Async trait support (billing providers, branching, scanning)
+urlencoding = "2.1"                # URL encoding for SAML/OAuth
+
+# CLI
+clap = { version = "4.5", features = ["derive", "env"] }
+
+# Serverless function JS runtime
+boa_engine = "0.20"
+
+[dev-dependencies]
+tempfile = "3.10"
+rcgen = "0.13"
+ring = "0.17"
+
+[[bin]]
+name = "stackhouse"
+path = "src/main.rs"

@@ -1,0 +1,248 @@
+# ===============================================================
+# Stackhouse Helm Chart — Default Values
+# ===============================================================
+
+# -- Global settings
+global:
+  imageRegistry: ""
+
+# ===============================================================
+# Stackhouse API Server
+# ===============================================================
+stackhouse:
+  replicaCount: 3
+
+  image:
+    repository: ghcr.io/arjavdesa912/stackhouse
+    tag: "1.0.0"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 3000
+
+  ingress:
+    enabled: false
+    className: nginx
+    annotations: {}
+    hosts:
+      - host: api.stackhouse.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "256Mi"
+    limits:
+      cpu: "2000m"
+      memory: "512Mi"
+
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 30
+    targetCPUUtilizationPercentage: 60
+    targetMemoryUtilizationPercentage: 70
+
+  env:
+    STACKHOUSE_PORT: "3000"
+    STACKHOUSE_HOST: "0.0.0.0"
+    STACKHOUSE_ENABLE_RAW_SQL: "false"
+    STACKHOUSE_ENABLE_DESTRUCTIVE_ADMIN: "false"
+    STACKHOUSE_CORS_ALLOWED_ORIGINS: ""
+    RUST_LOG: "info"
+
+  # -- Secrets referenced via secretKeyRef
+  secrets:
+    # Name of the Kubernetes Secret containing sensitive values
+    secretName: stackhouse-secrets
+    keys:
+      databaseUrl: database-url       # postgres://user:pass@host:5432/stackhouse
+      jwtSecret: jwt-secret
+      redisUrl: redis-url
+      qdrantUrl: qdrant-url           # http://qdrant:6333
+      dataEncryptionKey: data-encryption-key
+
+  # -- Probes
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 3000
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    failureThreshold: 3
+
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    successThreshold: 1
+
+  # -- Pod disruption budget
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 2
+
+  # -- Topology spread
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+
+  # -- Security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+
+  # -- Service account
+  serviceAccount:
+    create: true
+    name: stackhouse-sa
+    annotations: {}
+
+  # -- Network policy
+  networkPolicy:
+    enabled: true
+
+  # -- Persistent volume for Stackhouse LSM data
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+
+# ===============================================================
+# Qdrant (Vector Database)
+# ===============================================================
+qdrant:
+  enabled: true
+
+  replicaCount: 1
+
+  image:
+    repository: qdrant/qdrant
+    tag: "v1.13.2"
+
+  service:
+    type: ClusterIP
+    ports:
+      rest: 6333
+      grpc: 6334
+
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 20Gi
+
+  config:
+    log_level: INFO
+    storage:
+      optimizers:
+        indexing_threshold: 20000
+    hnsw_index:
+      m: 16
+      ef_construct: 100
+
+# ===============================================================
+# PostgreSQL (Bitnami Sub-chart)
+# ===============================================================
+postgresql:
+  enabled: true
+
+  auth:
+    existingSecret: stackhouse-postgresql-auth
+    secretKeys:
+      adminPasswordKey: postgres-password
+      userPasswordKey: password
+      replicationPasswordKey: replication-password
+      metricsPasswordKey: metrics-password
+    username: "stackhouse"
+    database: "stackhouse"
+
+  primary:
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "512Mi"
+      limits:
+        cpu: "2000m"
+        memory: "2Gi"
+    persistence:
+      enabled: true
+      size: 50Gi
+
+  readReplicas:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "256Mi"
+      limits:
+        cpu: "1000m"
+        memory: "1Gi"
+    persistence:
+      enabled: true
+      size: 50Gi
+
+  metrics:
+    enabled: true
+
+# ===============================================================
+# Redis (Bitnami Sub-chart)
+# ===============================================================
+redis:
+  enabled: true
+
+  architecture: replication
+
+  auth:
+    enabled: true
+    existingSecret: stackhouse-redis-auth
+    existingSecretPasswordKey: redis-password
+
+  master:
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "256Mi"
+      limits:
+        cpu: "1000m"
+        memory: "1Gi"
+    persistence:
+      enabled: true
+      size: 5Gi
+
+  replica:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+    persistence:
+      enabled: true
+      size: 5Gi
+
+  metrics:
+    enabled: true

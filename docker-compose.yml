@@ -1,0 +1,83 @@
+
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: stackhouse_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: stackhouse
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:v1.13.2
+    container_name: stackhouse_qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC API
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      QDRANT__SERVICE__GRPC_PORT: 6334
+      QDRANT__LOG_LEVEL: INFO
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'true < /dev/tcp/127.0.0.1/6333'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  stackhouse:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: stackhouse:latest
+    container_name: stackhouse
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - stackhouse_data:/data
+    environment:
+      - STACKHOUSE_PORT=8080
+      - STACKHOUSE_HOST=0.0.0.0
+      - STACKHOUSE_URL=postgres://postgres:password@postgres:5432/stackhouse
+      - QDRANT_URL=http://qdrant:6333
+      # Enable raw SQL console and destructive admin operations (required by the UI).
+      - STACKHOUSE_ENABLE_RAW_SQL=true
+      - STACKHOUSE_ENABLE_DESTRUCTIVE_ADMIN=true
+      - STACKHOUSE_JWT_SECRET=supersecretjwtkeythatislongenough
+      # 32-byte hex key used for MFA TOTP secret and backup-code encryption.
+      - STACKHOUSE_DATA_ENCRYPTION_KEY=${STACKHOUSE_DATA_ENCRYPTION_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      - STACKHOUSE_ADMIN_EMAILS=admin@test.com,admin_v2@test.com,newuser@test.com
+      - STACKHOUSE_CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:5173,http://localhost:8001,http://localhost:8002,http://localhost:8003,http://localhost:8004,http://localhost:8005,http://localhost:8006,http://localhost:8007,http://localhost:8080,http://127.0.0.1:3000,http://127.0.0.1:3001,http://127.0.0.1:5173,http://127.0.0.1:8001,http://127.0.0.1:8002,http://127.0.0.1:8003,http://127.0.0.1:8004,http://127.0.0.1:8005,http://127.0.0.1:8006,http://127.0.0.1:8007,http://127.0.0.1:8080
+      # === Enterprise AI Brain ===
+      # Uncomment and set API keys for your preferred LLM provider(s):
+      # - OPENAI_API_KEY=sk-...
+      # - OPENAI_MODEL=gpt-4o
+      # - ANTHROPIC_API_KEY=sk-ant-...
+      # - ANTHROPIC_MODEL=claude-sonnet-4-20250514
+      # - GEMINI_API_KEY=...
+      # - GEMINI_MODEL=gemini-2.5-pro
+      # - RUST_LOG=debug # Uncomment for verbose logging
+
+volumes:
+  stackhouse_data:
+  postgres_data:
+  qdrant_data:

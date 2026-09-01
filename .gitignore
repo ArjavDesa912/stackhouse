@@ -1,0 +1,43 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.iml
+
+# Rust build artifacts
+/target/
+build.log
+
+# Node / JS build artifacts
+node_modules/
+ui/dist/
+**/.next/
+npm-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local runtime data — never ship a dev database or backup snapshots
+vibedb_storage/
+stackhouse_storage/
+pgdata/
+*.db
+*.db-shm
+*.db-wal
