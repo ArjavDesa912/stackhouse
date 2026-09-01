@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Sparkles, Mail, Lock, Eye, EyeOff, AlertCircle, ArrowRight, ArrowLeft,
+  Mail, Lock, Eye, EyeOff, AlertCircle, ArrowRight, ArrowLeft,
   Github, Chrome, Apple, MessageSquare, Smartphone, Wand2, CheckCircle2, ShieldCheck, Zap
 } from 'lucide-react';
 import { API_Base } from '../lib/apiClient';
@@ -130,7 +130,7 @@ export default function AuthPage() {
   };
 
   const title = {
-    signin:       { eyebrow: 'Welcome back', heading: 'Sign in to StackhouseBrain' },
+    signin:       { eyebrow: 'Welcome back', heading: 'Sign in to Stackhouse' },
     signup:       { eyebrow: 'Get started',  heading: 'Create your account' },
     magic:        { eyebrow: 'Magic link',   heading: 'Passwordless sign in' },
     'otp-send':   { eyebrow: 'Phone sign-in',heading: 'Verify with your phone' },
@@ -145,19 +145,19 @@ export default function AuthPage() {
         <div className="absolute -top-[20%] -left-[10%] h-[500px] w-[500px] rounded-full bg-primary/10 blur-[100px]" />
 
         <div className="relative z-10 flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-card border border-border">
-            <Sparkles className="h-5 w-5 text-foreground" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border">
+            <img src="/logo.svg" alt="Stackhouse" className="h-full w-full" />
           </div>
           <div>
-            <div className="font-serif text-lg font-bold tracking-tight text-foreground">StackhouseBrain</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground">Edge Data OS</div>
+            <div className="font-serif text-lg font-bold tracking-tight text-foreground">Stackhouse</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground">Open Source Backend</div>
           </div>
         </div>
 
         <div className="relative z-10 max-w-md my-auto">
           <div className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-2 py-0.5 mb-4">
             <Zap className="h-2.5 w-2.5 text-primary" />
-            <span className="text-xs font-semibold tracking-wide text-muted-foreground">StackhouseBrain 2.0 is now live</span>
+            <span className="text-xs font-semibold tracking-wide text-muted-foreground">Self-hosted and MIT licensed</span>
           </div>
           <h1 className="font-serif text-[44px] leading-[1.1] font-medium tracking-tight mb-3 text-foreground">
             The database that thinks with you.
@@ -199,10 +199,10 @@ export default function AuthPage() {
           
           {/* Mobile brand header */}
           <div className="mb-5 flex items-center justify-center gap-2 lg:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary shadow-none shadow-none">
-              <Sparkles className="h-5 w-5 text-primary-foreground" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+              <img src="/logo.svg" alt="Stackhouse" className="h-full w-full" />
             </div>
-            <span className="font-serif text-lg font-semibold">StackhouseBrain</span>
+            <span className="font-serif text-lg font-semibold">Stackhouse</span>
           </div>
 
           {/* Card Container for Form */}

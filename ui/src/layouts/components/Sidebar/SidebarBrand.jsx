@@ -1,5 +1,4 @@
 import { Link } from 'react-router';
-import { Database } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function SidebarBrand({ collapsed, environment = 'dev' }) {
@@ -11,8 +10,8 @@ export function SidebarBrand({ collapsed, environment = 'dev' }) {
         collapsed && 'justify-center px-0',
       )}
     >
-      <span className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-foreground text-primary-foreground">
-        <Database className="h-3 w-3 text-primary" />
+      <span className="relative flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-md">
+        <img src="/logo.svg" alt="Stackhouse" className="h-full w-full" />
         <span className="pointer-events-none absolute inset-0 rounded-md ring-1 ring-inset ring-ring/40" />
       </span>
       {!collapsed && (

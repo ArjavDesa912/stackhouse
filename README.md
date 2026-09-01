@@ -1,11 +1,17 @@
-# Stackhouse
+<p align="center">
+  <img src="assets/logo.svg" alt="Stackhouse" width="120" />
+</p>
 
-**An open-source backend platform: schema-later Postgres, auth, storage, realtime, vector search, serverless functions, and billing — in one Rust binary.**
+<h1 align="center">Stackhouse</h1>
 
-[![CI](https://github.com/ArjavDesa912/stackhouse/actions/workflows/ci.yml/badge.svg)](https://github.com/ArjavDesa912/stackhouse/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-2021-orange.svg)](Cargo.toml)
-[![Status: pre-1.0](https://img.shields.io/badge/status-pre--1.0-yellow.svg)](#project-status)
+<p align="center"><strong>An open-source backend platform: schema-later Postgres, auth, storage, realtime, vector search, serverless functions, and billing — in one Rust binary.</strong></p>
+
+<p align="center">
+  <a href="https://github.com/ArjavDesa912/stackhouse/actions/workflows/ci.yml"><img src="https://github.com/ArjavDesa912/stackhouse/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-2021-orange.svg" alt="Rust" /></a>
+  <a href="#project-status"><img src="https://img.shields.io/badge/status-pre--1.0-yellow.svg" alt="Status: pre-1.0" /></a>
+</p>
 
 Stackhouse pushes your JSON straight into Postgres and evolves the schema for you — no migrations, no ORM, no upfront modeling. On top of that data layer it ships the rest of what a real product needs: JWT/OAuth/SAML/WebAuthn auth, row-level security, S3-compatible object storage, WebSocket/SSE realtime, HNSW vector search (via Qdrant), JS serverless functions, and usage-based billing — all as one Rust binary backed by a real Postgres database.
 
