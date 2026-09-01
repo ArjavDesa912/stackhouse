@@ -56,7 +56,7 @@ lazy_static = "1.4"
 # Authentication
 argon2 = "0.5"                    # Password hashing
 jsonwebtoken = "9.3"              # JWT tokens
-rand = "0.8"                      # Secure random generation
+rand = "0.9"                      # Secure random generation
 base64 = "0.22"                   # Encoding
 
 # OAuth2 & Social Login
