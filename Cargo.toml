@@ -86,7 +86,7 @@ hex = "0.4"
 md5 = "0.7"
 rsa = { version = "0.9", features = ["sha2"] }
 p256 = { version = "0.13", features = ["ecdsa"] }
-x509-parser = { version = "0.16", features = ["verify"] }
+x509-parser = { version = "0.18", features = ["verify"] }
 
 # Storage
 multer = "3.0"                    # Multipart form handling
